@@ -1,0 +1,25 @@
+{
+  "name": "filthy-rich",
+  "version": "0.0.0",
+  "description": "A filthy rich text editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davvidbaker/filthy-rich.git"
+  },
+  "author": "David Baker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davvidbaker/filthy-rich/issues"
+  },
+  "homepage": "https://github.com/davvidbaker/filthy-rich#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "body-parser": "^1.17.2",
+    "nodemon": "^1.11.0"
+  }
+}
