@@ -1,0 +1,8 @@
+.filthy-redaction {
+  background-color: black;
+  transition: background-color 0.5s;
+}
+
+.filthy-redaction:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
