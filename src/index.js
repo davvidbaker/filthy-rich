@@ -10,15 +10,7 @@ import "./styles/marks.css";
 import "./styles/nodes.css";
 import "./styles/editor-scope.css";
 
-const emptyDoc = {
-  type: "doc",
-  content: [
-    {
-      type: "paragraph",
-      content: []
-    }
-  ]
-};
+const emptyDoc = schema.nodes.doc.createAndFill();
 
 export const filthy = (node, doc = emptyDoc, onChange = state => {}) => {
   const view = new EditorView(node, {
