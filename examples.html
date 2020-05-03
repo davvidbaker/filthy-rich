@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- sets window.filthy -->
+    <script src="src/index.js"></script>
+    <script>
+      const key = "filthy-doc-free-write";
+
+      const loadDoc = () => {
+        const doc = localStorage.getItem(key);
+        if (!doc) return;
+        return JSON.parse(doc);
+      };
+
+      const loadedDoc = loadDoc();
+
+      console.log(`🔥  loadedDoc`, loadedDoc);
+
+      const filthyRich = filthy(
+        document.querySelector("#root"),
+        loadedDoc,
+        doc => localStorage.setItem(key, JSON.stringify(doc))
+      );
+    </script>
+  </body>
+</html>

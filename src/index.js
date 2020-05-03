@@ -7,6 +7,8 @@ import { buildPlugins } from "./plugins/plugins";
 
 import "./styles/prosemirror.css";
 import "./styles/marks.css";
+import "./styles/nodes.css";
+import "./styles/editor-scope.css";
 
 const emptyDoc = {
   type: "doc",
@@ -18,7 +20,7 @@ const emptyDoc = {
   ]
 };
 
-export const filthy = (node, doc = emptyDoc) => {
+export const filthy = (node, doc = emptyDoc, onChange = state => {}) => {
   const view = new EditorView(node, {
     state: EditorState.fromJSON(
       {
@@ -30,7 +32,11 @@ export const filthy = (node, doc = emptyDoc) => {
     dispatchTransaction(tr) {
       this.updateState(this.state.apply(tr));
 
-      console.log(JSON.stringify(view.state.doc.toJSON()));
+      if (tr.docChanged) {
+        onChange(this.state.doc);
+      }
     }
   });
 };
+
+window.filthy = filthy;
