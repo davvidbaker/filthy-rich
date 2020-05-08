@@ -1,14 +1,14 @@
 export const redaction = {
   toDOM: () => [
-    "span",
+    'span',
     {
-      class: "filthy-redaction"
-    }
+      class: 'filthy-redaction',
+    },
   ],
   parseDOM: [
     {
-      tag: "span",
-      class: "filthy-redaction"
-    }
-  ]
-};
+      tag: 'span',
+      class: 'filthy-redaction',
+    },
+  ],
+}

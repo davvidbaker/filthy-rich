@@ -1,34 +1,33 @@
-import { EditorView } from "prosemirror-view";
-import { EditorState } from "prosemirror-state";
-import { DOMParser } from "prosemirror-model";
+import { EditorState } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
 
-import { schema } from "./schema/schema";
-import { buildPlugins } from "./plugins/plugins";
+import { buildPlugins } from './plugins/plugins'
+import { schema } from './schema/schema'
 
-import "./styles/prosemirror.css";
-import "./styles/marks.css";
-import "./styles/nodes.css";
-import "./styles/editor-scope.css";
+import './styles/prosemirror.css'
+import './styles/marks.css'
+import './styles/nodes.css'
+import './styles/editor-scope.css'
 
-const emptyDoc = schema.nodes.doc.createAndFill();
+const emptyDoc = schema.nodes.doc.createAndFill().toJSON()
 
-export const filthy = (node, doc = emptyDoc, onChange = state => {}) => {
-  const view = new EditorView(node, {
+export function filthy(node, doc = emptyDoc, onChange = (_state) => {}) {
+  return new EditorView(node, {
     state: EditorState.fromJSON(
       {
         schema,
-        plugins: buildPlugins()
+        plugins: buildPlugins(),
       },
-      { doc, selection: { type: "text", anchor: 1, head: 1 } }
+      { doc, selection: { type: 'text', anchor: 1, head: 1 } },
     ),
     dispatchTransaction(tr) {
-      this.updateState(this.state.apply(tr));
+      this.updateState(this.state.apply(tr))
 
       if (tr.docChanged) {
-        onChange(this.state.doc);
+        onChange(this.state.doc)
       }
-    }
-  });
-};
+    },
+  })
+}
 
-window.filthy = filthy;
+window.filthy = filthy

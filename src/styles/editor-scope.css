@@ -16,3 +16,8 @@ body {
 .ProseMirror * *:hover {
   background: var(--el-background);
 }
+
+pre {
+  padding: 10px;
+  background: rgb(230, 230, 218);
+}

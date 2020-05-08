@@ -1,18 +1,18 @@
-export default { title: "Filthy Rich" };
+export default { title: 'Filthy Rich' }
 
-import { filthy } from "./index";
-import { doc, freeWrite } from "../fixtures/doc";
+import { doc, freeWrite } from '../fixtures/doc'
+import { filthy } from './index'
 
 export const main = () => {
-  const div = document.createElement("div");
-  filthy(div, doc);
+  const div = document.createElement('div')
+  filthy(div, doc)
 
-  return div;
-};
+  return div
+}
 
 export const free = () => {
-  const div = document.createElement("div");
-  filthy(div, freeWrite);
+  const div = document.createElement('div')
+  filthy(div, freeWrite)
 
-  return div;
-};
+  return div
+}

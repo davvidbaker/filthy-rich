@@ -11,23 +11,28 @@
     <!-- sets window.filthy -->
     <script src="src/index.js"></script>
     <script>
-      const key = "filthy-doc-free-write";
+      const key = 'filthy-doc-free-write'
 
       const loadDoc = () => {
-        const doc = localStorage.getItem(key);
-        if (!doc) return;
-        return JSON.parse(doc);
-      };
+        const doc = localStorage.getItem(key)
+        if (!doc) return
+        return JSON.parse(doc)
+      }
 
-      const loadedDoc = loadDoc();
+      const loadedDoc = loadDoc()
 
-      console.log(`🔥  loadedDoc`, loadedDoc);
+      console.log(`🔥  loadedDoc`, loadedDoc)
 
-      const filthyRich = filthy(
-        document.querySelector("#root"),
-        loadedDoc,
-        doc => localStorage.setItem(key, JSON.stringify(doc))
-      );
+      const filthyRich = filthy(document.querySelector('#root'), loadedDoc, doc =>
+        localStorage.setItem(key, JSON.stringify(doc)),
+      )
     </script>
+
+    <style>
+      @font-face {
+        font-family: 'some time later';
+        src: url('assets/some-time-later.otf');
+      }
+    </style>
   </body>
 </html>

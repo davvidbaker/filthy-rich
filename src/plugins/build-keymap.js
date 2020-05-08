@@ -1,25 +1,8 @@
-import {
-  wrapIn,
-  setBlockType,
-  chainCommands,
-  toggleMark,
-  exitCode,
-  joinUp,
-  joinDown,
-  lift,
-  selectParentNode
-} from "prosemirror-commands";
-import {
-  wrapInList,
-  splitListItem,
-  liftListItem,
-  sinkListItem
-} from "prosemirror-schema-list";
-import { undo, redo } from "prosemirror-history";
-import { undoInputRule } from "prosemirror-inputrules";
+import { undo, redo } from 'prosemirror-history'
+import { undoInputRule } from 'prosemirror-inputrules'
 
-const mac =
-  typeof navigator != "undefined" ? /Mac/.test(navigator.platform) : false;
+import * as command from './commands'
+const mac = typeof navigator != 'undefined' ? /Mac/.test(navigator.platform) : false
 
 // :: (Schema, ?Object) → Object
 // Inspect the given schema looking for marks and nodes from the
@@ -51,68 +34,73 @@ const mac =
 // remove the binding, or a new key name string.
 export function buildKeymap(schema, mapKeys) {
   let keys = {},
-    type;
+    type
   function bind(key, cmd) {
     if (mapKeys) {
-      let mapped = mapKeys[key];
-      if (mapped === false) return;
-      if (mapped) key = mapped;
+      let mapped = mapKeys[key]
+      if (mapped === false) return
+      if (mapped) key = mapped
     }
-    keys[key] = cmd;
+    keys[key] = cmd
   }
 
-  bind("Mod-z", undo);
-  bind("Shift-Mod-z", redo);
-  bind("Backspace", undoInputRule);
-  if (!mac) bind("Mod-y", redo);
+  bind('Mod-z', undo)
+  bind('Shift-Mod-z', redo)
+  bind('Backspace', undoInputRule)
+  if (!mac) bind('Mod-y', redo)
 
-  bind("Alt-ArrowUp", joinUp);
-  bind("Alt-ArrowDown", joinDown);
-  bind("Mod-BracketLeft", lift);
-  bind("Escape", selectParentNode);
+  bind('Alt-ArrowUp', command.joinUp)
+  bind('Alt-ArrowDown', command.oinDown)
+  bind('Mod-BracketLeft', command.lift)
+  bind('Escape', command.selectParentNode)
 
   if ((type = schema.marks.strong)) {
-    bind("Mod-b", toggleMark(type));
-    bind("Mod-B", toggleMark(type));
+    bind('Mod-b', command.toggleMark(type))
+    bind('Mod-B', command.toggleMark(type))
   }
   if ((type = schema.marks.em)) {
-    bind("Mod-i", toggleMark(type));
-    bind("Mod-I", toggleMark(type));
+    bind('Mod-i', command.toggleMark(type))
+    bind('Mod-I', command.toggleMark(type))
   }
-  if ((type = schema.marks.code)) bind("Mod-`", toggleMark(type));
+  if ((type = schema.marks.code)) bind('Mod-e', command.toggleMark(type))
+  // let br = type,
+  //   cmd = command.chainCommands(command.exitCode, (state, dispatch) => {
+  //     dispatch(state.tr.replaceSelectionWith(br.create()).scrollIntoView())
+  //     return true
+  //   })
+  // bind('Shift-Enter', cmd)
+  // if (mac) bind('Ctrl-Enter', cmd)
 
-  if ((type = schema.nodes.bullet_list)) bind("Shift-Ctrl-8", wrapInList(type));
-  if ((type = schema.nodes.ordered_list))
-    bind("Shift-Ctrl-9", wrapInList(type));
-  if ((type = schema.nodes.blockquote)) bind("Ctrl->", wrapIn(type));
+  if ((type = schema.nodes.save)) bind('Mod-s', command.insertSave(type))
+  if ((type = schema.nodes.bullet_list)) bind('Shift-Ctrl-8', command.wrapInList(type))
+  if ((type = schema.nodes.ordered_list)) bind('Shift-Ctrl-9', command.wrapInList(type))
+  if ((type = schema.nodes.blockquote)) bind('Ctrl->', command.wrapIn(type))
   if ((type = schema.nodes.hard_break)) {
     let br = type,
-      cmd = chainCommands(exitCode, (state, dispatch) => {
-        dispatch(state.tr.replaceSelectionWith(br.create()).scrollIntoView());
-        return true;
-      });
-    bind("Mod-Enter", cmd);
-    bind("Shift-Enter", cmd);
-    if (mac) bind("Ctrl-Enter", cmd);
+      cmd = command.chainCommands(command.exitCode, (state, dispatch) => {
+        dispatch(state.tr.replaceSelectionWith(br.create()).scrollIntoView())
+        return true
+      })
+    bind('Mod-Enter', cmd)
+    bind('Shift-Enter', cmd)
+    if (mac) bind('Ctrl-Enter', cmd)
   }
   if ((type = schema.nodes.list_item)) {
-    bind("Enter", splitListItem(type));
-    bind("Mod-[", liftListItem(type));
-    bind("Mod-]", sinkListItem(type));
+    bind('Enter', command.splitListItem(type))
+    bind('Mod-[', command.liftListItem(type))
+    bind('Mod-]', command.sinkListItem(type))
   }
-  if ((type = schema.nodes.paragraph)) bind("Shift-Ctrl-0", setBlockType(type));
-  if ((type = schema.nodes.code_block))
-    bind("Shift-Ctrl-\\", setBlockType(type));
+  if ((type = schema.nodes.paragraph)) bind('Shift-Ctrl-0', command.setBlockType(type))
+  if ((type = schema.nodes.code_block)) bind('Shift-Ctrl-\\', command.setBlockType(type))
   if ((type = schema.nodes.heading))
-    for (let i = 1; i <= 6; i++)
-      bind("Shift-Ctrl-" + i, setBlockType(type, { level: i }));
+    for (let i = 1; i <= 6; i++) bind('Shift-Ctrl-' + i, command.setBlockType(type, { level: i }))
   if ((type = schema.nodes.horizontal_rule)) {
-    let hr = type;
-    bind("Mod-_", (state, dispatch) => {
-      dispatch(state.tr.replaceSelectionWith(hr.create()).scrollIntoView());
-      return true;
-    });
+    let hr = type
+    bind('Mod-_', (state, dispatch) => {
+      dispatch(state.tr.replaceSelectionWith(hr.create()).scrollIntoView())
+      return true
+    })
   }
 
-  return keys;
+  return keys
 }
