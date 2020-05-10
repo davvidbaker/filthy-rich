@@ -37,7 +37,7 @@ function getState(doc) {
   }
 }
 
-export function filthy(domNode, doc = 'emptyDoc', onChange = (_state) => {}) {
+export function filthy(domNode, doc = emptyDoc, onChange = (_state) => {}) {
   const state = getState(doc)
 
   return new EditorView(domNode, {
