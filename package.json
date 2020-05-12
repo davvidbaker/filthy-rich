@@ -1,6 +1,6 @@
 {
   "name": "filthy-rich",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A filthy rich text editor",
   "main": "src/index.js",
   "scripts": {
