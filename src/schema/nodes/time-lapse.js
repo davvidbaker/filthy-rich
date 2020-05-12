@@ -6,8 +6,7 @@ export const time_lapse = {
   },
   parseDOM: [
     {
-      tag: 'div',
-      class: 'filthy-time-lapse',
+      tag: 'div.filthy-time-lapse',
     },
   ],
 }

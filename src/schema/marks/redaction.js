@@ -7,8 +7,7 @@ export const redaction = {
   ],
   parseDOM: [
     {
-      tag: 'span',
-      class: 'filthy-redaction',
+      tag: 'span.filthy-redaction',
     },
   ],
 }

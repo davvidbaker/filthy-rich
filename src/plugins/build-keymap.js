@@ -71,7 +71,7 @@ export function buildKeymap(schema, mapKeys) {
   // bind('Shift-Enter', cmd)
   // if (mac) bind('Ctrl-Enter', cmd)
 
-  if ((type = schema.nodes.save)) bind('Mod-s', command.insertSave(type))
+  if ((type = schema.nodes.save)) bind('Mod-s', command.insertNode(type))
   if ((type = schema.nodes.bullet_list)) bind('Shift-Ctrl-8', command.wrapInList(type))
   if ((type = schema.nodes.ordered_list)) bind('Shift-Ctrl-9', command.wrapInList(type))
   if ((type = schema.nodes.blockquote)) bind('Ctrl->', command.wrapIn(type))
