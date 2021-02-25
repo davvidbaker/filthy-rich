@@ -1,4 +1,5 @@
 export const redaction = {
+  inclusive: false,
   toDOM: () => [
     'span',
     {

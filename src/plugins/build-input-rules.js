@@ -1,5 +1,6 @@
 import {
   inputRules,
+  InputRule,
   wrappingInputRule,
   textblockTypeInputRule,
   smartQuotes,
@@ -46,6 +47,44 @@ export function timeLapseRule(nodeType) {
   return textblockTypeInputRule(/^(\.\.\.|…)$/, nodeType)
 }
 
+// export function textblockTypeInputRule(regexp, nodeType, getAttrs) {
+//   return new InputRule(regexp, (state, match, start, end) => {
+//     let $start = state.doc.resolve(start)
+//     let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs
+//     if (!$start.node(-1).canReplaceWith($start.index(-1), $start.indexAfter(-1), nodeType)) return null
+//     return state.tr
+//       .delete(start, end)
+//       .setBlockType(start, start, nodeType, attrs)
+//   })
+// }
+
+export function trailingInputRule(regex, markType) {
+  return new InputRule(regex, (state, match, start, end) => {
+    console.log(`🔥  match`, match)
+
+    const { word, alts } = match.groups
+
+    const alternateWords = alts ? alts.split(/\s/) : []
+
+    const wordChoiceMark = markType.create({ alts: alternateWords })
+    console.log(`🔥  wordChoiceMark`, wordChoiceMark)
+
+    return state.tr.delete(start, end).insert(start, markType.schema.text(word, [wordChoiceMark]))
+    // I wonder if this is a bad idea (using markType.instance)
+    return state.tr.addStoredMark(markType.instance)
+    return false
+  })
+}
+// : (MarkType) → InputRule
+export function wordChoiceRule(markType) {
+  // return textblockTypeInputRule(/\w*(\(\?\))$/, markType)
+  // I wonder how bad for performance this is—having to regex a whole long string, not just from the start
+  const ret = trailingInputRule(/(?<word>\w*)\(\?(?<alts>.*)?\)/, markType)
+
+  console.log(`🔥  ret`, ret)
+  return ret
+}
+
 // : (NodeType, number) → InputRule
 // Given a node type and a maximum level, creates an input rule that
 // turns up to that number of `#` characters followed by a space at
@@ -72,6 +111,12 @@ export function buildInputRules(schema) {
   // ellipsis must come after the time lapse rule
   if ((type = schema.nodes.time_lapse)) rules.push(timeLapseRule(type))
   rules.push(ellipsis)
+
+  if ((type = schema.marks.word_choice)) {
+    console.log(`✅  typdde`, type)
+    // rules.push(wordChoiceRule(type))
+    rules.push(wordChoiceRule(type))
+  }
 
   return inputRules({ rules })
 }

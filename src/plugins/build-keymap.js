@@ -63,6 +63,10 @@ export function buildKeymap(schema, mapKeys) {
     bind('Mod-I', command.toggleMark(type))
   }
   if ((type = schema.marks.code)) bind('Mod-e', command.toggleMark(type))
+
+  // WORKING OFF THIS, but it's not really what I'm going to want.
+  // I think I want a mark with a decoration for editing maybe.
+  if ((type = schema.nodes.word_choice)) bind('Shift-Mod-e', command.insertNode(schema.nodes.save))
   // let br = type,
   //   cmd = command.chainCommands(command.exitCode, (state, dispatch) => {
   //     dispatch(state.tr.replaceSelectionWith(br.create()).scrollIntoView())

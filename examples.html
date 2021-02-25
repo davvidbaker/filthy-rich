@@ -21,7 +21,7 @@
 
       const loadedDoc = loadDoc()
 
-      console.log(`🔥  loadedDoc`, loadedDoc)
+      console.log(`LOADED_DOC`, loadedDoc)
 
       const filthyRich = filthy(document.querySelector('#root'), loadedDoc, doc =>
         localStorage.setItem(key, JSON.stringify(doc)),

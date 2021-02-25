@@ -6,3 +6,43 @@
 .filthy-redaction:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+.filthy-word-choice-filled {
+  background-color: yellow;
+  position: relative;
+}
+.filthy-word-choice-filled::before {
+  content: attr(data-alt-1);
+  bottom: 80%;
+}
+.filthy-word-choice-filled::after {
+  content: attr(data-alt-2);
+  top: 75%;
+}
+.filthy-word-choice-filled::before,
+.filthy-word-choice-filled::after {
+  opacity: 0.05;
+  display: block;
+  position: absolute;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+  z-index: -1;
+  left: 0;
+  transition: opacity 0.2s;
+}
+.filthy-word-choice-filled:hover::before,
+.filthy-word-choice-filled:hover::after {
+  opacity: 1;
+}
+.filthy-word-choice-empty::before {
+  position: absolute;
+  content: 'WC';
+  z-index: -1;
+  opacity: 0.2;
+  color: lightblue;
+  font-size: 2rem;
+}
+.filthy-word-choice-empty:hover::after {
+  content: '👈 word choice';
+  background: firebrick;
+}
